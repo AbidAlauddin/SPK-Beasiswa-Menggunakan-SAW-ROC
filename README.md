@@ -16,8 +16,11 @@ Aplikasi Sistem Pendukung Keputusan menggunakan metode **SAW (Simple Additive We
 ### Dashboard
 ![Dashboard Preview](static/preview/dashboard.png)
 
-### Form Kriteria
-![Form Kriteria](static/preview/kriteria.png)
+### Form Edit
+![Form Kriteria](static/preview/edit.png)
+
+### Pesan Popup
+![Form Kriteria](static/preview/popup.png)
 
 ### Hasil Perhitungan
 ![Hasil SAW](static/preview/hasil.png)
@@ -29,3 +32,6 @@ Aplikasi Sistem Pendukung Keputusan menggunakan metode **SAW (Simple Additive We
 ```bash
 git clone https://github.com/username/saw-roc-flask.git
 cd saw-roc-flask
+
+### 1. Clone repositori
+2. Buat Virtual Environment (opsional namun disarankan)
