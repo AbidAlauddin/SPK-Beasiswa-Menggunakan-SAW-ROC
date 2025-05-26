@@ -14,15 +14,13 @@ Aplikasi Sistem Pendukung Keputusan menggunakan metode **SAW (Simple Additive We
 ## 🖼️ Preview Tampilan
 
 ### Dashboard
-![Dashboard Preview](preview/dashboard.png)
+![Dashboard Preview](static/preview/dashboard.png)
 
 ### Form Kriteria
-![Form Kriteria](preview/kriteria.png)
+![Form Kriteria](static/preview/kriteria.png)
 
 ### Hasil Perhitungan
-![Hasil SAW](preview/hasil.png)
-
-> Letakkan gambar-gambar ini di folder `static/preview/` dan sesuaikan path-nya jika berbeda.
+![Hasil SAW](static/preview/hasil.png)
 
 ## 🚀 Cara Menjalankan Aplikasi
 
