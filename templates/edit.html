@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Mahasiswa</title>
+    <style>
+        body {
+            background-color: #dcdcdc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 400px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Data</h2>
+    <form method="POST">
+        <input type="text" name="nama" value="{{ mahasiswa.Nama }}" readonly>
+        <input type="number" name="ipk" value="{{ mahasiswa.IPK }}" required>
+        <input type="number" name="penghasilan" value="{{ mahasiswa.Penghasilan }}" required>
+        <input type="number" name="tanggungan" value="{{ mahasiswa.Tanggungan }}" required>
+        <input type="number" name="prestasi" value="{{ mahasiswa.Prestasi }}" required>
+        <button type="submit">Simpan Perubahan</button>
+    </form>
+</div>
+
+</body>
+</html>

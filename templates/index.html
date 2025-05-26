@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>SPK Beasiswa</title>
+    <style>
+        /* Warna latar belakang (putih keabu-abuan) */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #dcdcdc; /* abu terang */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container konten utama */
+        .container {
+            background-color: white;
+            width: 85%;
+            max-width: 1400px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        h3 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.2);
+        }
+
+        select {
+            padding: 7px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            flex: 1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-simpan {
+            background-color: #27ae60;
+        }
+
+        .btn-simpan:hover {
+            background-color: #219a52;
+        }
+
+        .btn-proses {
+            background-color: #3498db;
+        }
+
+        .btn-proses:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-edit {
+            background-color: #f39c12;
+            padding: 12px 16px;
+            font-size: 14px;
+            margin-top: 5px;
+            width: auto;
+        }
+
+        .btn-edit:hover {
+            background-color: #e67e22;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            padding: 12px 16px;
+            font-size: 14px;
+            margin-top: 5px;
+            width: auto;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-reset {
+            background-color: #000000;
+            padding: 12px 16px;
+            font-size: 14px;
+            width: auto;
+            margin-top: 5px;
+            float: right;
+        }
+
+        .btn-reset:hover {
+            background-color: #656565;
+        }
+
+        .hasil-table {
+            margin-top: 30px;
+        }
+
+        .hasil-table table {
+            border: 2px solid #3498db;
+        }
+
+        .hasil-table th {
+            background-color: #2980b9;
+        }
+
+        .hasil-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .skor-tinggi {
+            background-color: #d5f4e6 !important;
+            font-weight: bold;
+        }
+
+        .info-box {
+            background-color: #e8f4fd;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-box h4 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+
+        .add-row-btn {
+            background-color: #f39c12;
+            padding: 8px 16px;
+            margin-top: 10px;
+            width: auto;
+        }
+
+        .add-row-btn:hover {
+            background-color: #e67e22;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: flex-start;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 95%;
+            max-width: 1400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        .edit-modal-content {
+            width: 60%;
+            max-width: 600px;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .close {
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #ecf0f1;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .popup-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .popup-table th {
+            background-color: #34495e;
+            color: white;
+            padding: 10px 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .popup-table td {
+            padding: 8px 6px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .popup-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .highlight-rank {
+            background-color: #d5f4e6 !important;
+            font-weight: bold;
+        }
+
+        .highlight-rank td {
+            border-color: #27ae60 !important;
+        }
+
+        .modal-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        .criteria-info {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 10px 15px;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        .criteria-info ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+
+        .edit-form-group {
+            margin-bottom: 15px;
+        }
+
+        .edit-form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .edit-form-group input,
+        .edit-form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .edit-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-update {
+            background-color: #27ae60;
+        }
+
+        .btn-update:hover {
+            background-color: #219a52;
+        }
+
+        .btn-cancel {
+            background-color: #95a5a6;
+        }
+
+        .btn-cancel:hover {
+            background-color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>SPK Beasiswa Menggunakan SAW + ROC</h1>
+
+        <div class="info-box">
+            <h4>Petunjuk Penggunaan:</h4>
+            <p><strong>Proses:</strong> Menghitung skor SAW + ROC</p>
+            <div class="criteria-info">
+                <strong>Kriteria Penilaian:</strong>
+                <ul>
+                    <li><strong>IPK:</strong> Jumlah IPK terakhir</li>
+                    <li><strong>Penghasilan Ortu:</strong> Penghasilan orang tua perbulan (Rp)</li>
+                    <li><strong>Tanggungan Ortu:</strong> Tanggungan atau pengeluaran orang tua perbulan (Rp)</li>
+                    <li><strong>Prestasi:</strong> Jumlah prestasi yang dimenangkan</li>
+                    <li><strong>Semester:</strong> Semester mahasiswa saat ini</li>
+                    <li><strong>Organisasi:</strong> Sedang mengikuti keorganisasian atau tidak</li>
+                </ul>
+            </div>
+            <p><em>Note: Tabel utama selalu menampilkan data tersimpan tanpa skor, hasil perhitungan muncul di pop-up</em></p>
+        </div>
+
+        <form method="POST" id="mainForm">
+            <h3>Input Data Mahasiswa:</h3>
+            <div id="dataContainer">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>IPK</th>
+                            <th>Penghasilan Ortu (Rp)</th>
+                            <th>Tanggungan Ortu</th>
+                            <th>Prestasi</th>
+                            <th>Semester</th>
+                            <th>Aktif Organisasi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataRows">
+                        <tr>
+                            <td><input type="text" name="nama" placeholder="Nama mahasiswa"></td>
+                            <td><input type="number" step="0.01" min="0" max="4" name="ipk" placeholder="3.50"></td>
+                            <td><input type="number" min="0" name="penghasilan" placeholder="5000000"></td>
+                            <td><input type="number" min="0" name="tanggungan" placeholder="3"></td>
+                            <td><input type="number" min="0" name="prestasi" placeholder="2"></td>
+                            <td>
+                                <select name="semester" required>
+                                    <option value="">Pilih Semester</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="organisasi" required>
+                                    <option value="">Pilih</option>
+                                    <option value="Ya">Ya</option>
+                                    <option value="Tidak">Tidak</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <button type="button" class="add-row-btn" onclick="addRow()">Tambah Baris</button>
+            
+            <div class="button-container">
+                <button type="submit" name="action" value="simpan" class="btn-simpan">💾 Simpan Data</button>
+            </div>
+        </form>
+
+        <!-- Form terpisah untuk button Proses -->
+        <form method="POST" style="margin-top: 20px;">
+            <div class="button-container">
+                <button type="submit" name="action" value="proses" class="btn-proses">🔄 Proses & Hitung Ranking Data Tersimpan</button>
+            </div>
+        </form>
+
+        {% if hasil %}
+            <div class="hasil-table">
+                <h3>Data Mahasiswa Tersimpan:</h3>
+                <form method="POST" id="actionForm">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pilih</th>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>IPK</th>
+                                <th>Penghasilan Ortu</th>
+                                <th>Tanggungan Ortu</th>
+                                <th>Prestasi</th>
+                                <th>Semester</th>
+                                <th>Aktif Organisasi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in hasil %}
+                            <tr>
+                                <td><input type="checkbox" name="selected_rows" value="{{ loop.index0 }}" id="checkbox_{{ loop.index0 }}"></td>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ row.Nama }}</td>
+                                <td>{{ row.IPK }}</td>
+                                <td>Rp {{ "{:,.0f}".format(row.Penghasilan) }}</td>
+                                <td>Rp {{ "{:,.0f}".format(row.Tanggungan) }}</td>
+                                <td>{{ row.Prestasi }}</td>
+                                <td>{{ row.Semester if row.Semester is defined else 4 }}</td>
+                                <td>{{ row.Organisasi if row.Organisasi is defined else 'Tidak' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    <div class="action-buttons">
+                        <button type="button" class="btn-edit" onclick="editSelected()">✏️ Edit Data Terpilih</button>
+                        <button type="button" class="btn-delete" onclick="deleteSelected()">🗑️ Hapus Data Terpilih</button>
+                        <a href="/reset" onclick="return confirm('Yakin ingin menghapus semua data?')">
+                            <button type="button" class="btn-reset">🗑️ Reset Semua Data</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        {% else %}
+            <div class="info-box" style="margin-top: 30px;">
+                <h4>Belum Ada Data</h4>
+                <p>Silakan input dan simpan data mahasiswa terlebih dahulu, kemudian tekan tombol "Proses" untuk melihat hasil perhitungan ranking.</p>
+            </div>
+        {% endif %}
+
+        <!-- Edit Modal -->
+        {% if edit_data %}
+        <div id="editModal" class="modal" style="display: block;">
+            <div class="modal-content edit-modal-content">
+                <div class="modal-header">
+                    <h2>✏️ Edit Data Mahasiswa</h2>
+                    <span class="close" onclick="closeEditModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="editForm">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="edit_index" value="{{ edit_data.index }}">
+                        
+                        <div class="edit-form-group">
+                            <label for="edit_nama">Nama:</label>
+                            <input type="text" id="edit_nama" name="edit_nama" value="{{ edit_data.Nama }}" required>
+                        </div>
+                        
+                        <div class="edit-form-group">
+                            <label for="edit_ipk">IPK:</label>
+                            <input type="number" step="0.01" min="0" max="4" id="edit_ipk" name="edit_ipk" value="{{ edit_data.IPK }}" required>
+                        </div>
+                        
+                        <div class="edit-form-group">
+                            <label for="edit_penghasilan">Penghasilan Orang Tua:</label>
+                            <input type="number" min="0" id="edit_penghasilan" name="edit_penghasilan" value="{{ edit_data.Penghasilan }}" required>
+                        </div>
+                        
+                        <div class="edit-form-group">
+                            <label for="edit_tanggungan">Tanggungan Orang Tua:</label>
+                            <input type="number" min="0" id="edit_tanggungan" name="edit_tanggungan" value="{{ edit_data.Tanggungan }}" required>
+                        </div>
+                        
+                        <div class="edit-form-group">
+                            <label for="edit_prestasi">Prestasi:</label>
+                            <input type="number" min="0" id="edit_prestasi" name="edit_prestasi" value="{{ edit_data.Prestasi }}" required>
+                        </div>
+                        
+                        <div class="edit-form-group">
+                            <label for="edit_semester">Semester:</label>
+                            <select id="edit_semester" name="edit_semester" required>
+                                <option value="1" {% if edit_data.Semester == 1 %}selected{% endif %}>Semester 1</option>
+                                <option value="2" {% if edit_data.Semester == 2 %}selected{% endif %}>Semester 2</option>
+                                <option value="3" {% if edit_data.Semester == 3 %}selected{% endif %}>Semester 3</option>
+                                <option value="4" {% if edit_data.Semester == 4 %}selected{% endif %}>Semester 4</option>
+                                <option value="5" {% if edit_data.Semester == 5 %}selected{% endif %}>Semester 5</option>
+                                <option value="6" {% if edit_data.Semester == 6 %}selected{% endif %}>Semester 6</option>
+                                <option value="7" {% if edit_data.Semester == 7 %}selected{% endif %}>Semester 7</option>
+                                <option value="8" {% if edit_data.Semester == 8 %}selected{% endif %}>Semester 8</option>
+                            </select>
+                        </div>
+                        
+                        <div class="edit-form-group">
+                            <label for="edit_organisasi">Aktif Organisasi:</label>
+                            <select id="edit_organisasi" name="edit_organisasi" required>
+                                <option value="Ya" {% if edit_data.Organisasi == 'Ya' %}selected{% endif %}>Ya</option>
+                                <option value="Tidak" {% if edit_data.Organisasi == 'Tidak' %}selected{% endif %}>Tidak</option>
+                            </select>
+                        </div>
+                        
+                        <div class="edit-buttons">
+                            <button type="submit" class="btn-update">💾 Update Data</button>
+                            <button type="button" class="btn-cancel" onclick="closeEditModal()">❌ Batal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Pop-up Modal untuk Hasil Perhitungan -->
+        {% if show_popup %}
+        <div id="popupModal" class="modal" style="display: block;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🏆 Hasil Perhitungan SAW + ROC</h2>
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Ranking Penerima Beasiswa:</strong></p>
+                    <table class="popup-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Nama</th>
+                                <th>IPK</th>
+                                <th>Penghasilan</th>
+                                <th>Tanggungan</th>
+                                <th>Prestasi</th>
+                                <th>Semester</th>
+                                <th>Organisasi</th>
+                                <th>Skor SAW</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in hasil_perhitungan %}
+                            <tr {% if loop.index <= 3 %}class="highlight-rank"{% endif %}>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ row.Nama }}</td>
+                                <td>{{ row.IPK }}</td>
+                                <td>Rp {{ "{:,.0f}".format(row.Penghasilan) }}</td>
+                                <td>{{ row.Tanggungan }}</td>
+                                <td>{{ row.Prestasi }}</td>
+                                <td>{{ row.Semester }}</td>
+                                <td>{{ row.Organisasi }}</td>
+                                <td>{{ "%.4f"|format(row.Skor) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                        <p><em>🥇 Top 3 kandidat terbaik ditandai dengan highlight hijau</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function addRow() {
+            const tbody = document.getElementById('dataRows');
+            const newRow = tbody.insertRow();
+            
+            const cells = [
+                '<input type="text" name="nama" placeholder="Nama mahasiswa">',
+                '<input type="number" step="0.01" min="0" max="4" name="ipk" placeholder="3.50">',
+                '<input type="number" min="0" name="penghasilan" placeholder="5000000">',
+                '<input type="number" min="0" name="tanggungan" placeholder="3">',
+                '<input type="number" min="0" name="prestasi" placeholder="2">',
+                '<select name="semester" required>' +
+                    '<option value="">Pilih Semester</option>' +
+                    '<option value="1">Semester 1</option>' +
+                    '<option value="2">Semester 2</option>' +
+                    '<option value="3">Semester 3</option>' +
+                    '<option value="4">Semester 4</option>' +
+                    '<option value="5">Semester 5</option>' +
+                    '<option value="6">Semester 6</option>' +
+                    '<option value="7">Semester 7</option>' +
+                    '<option value="8">Semester 8</option>' +
+                '</select>',
+                '<select name="organisasi" required>' +
+                    '<option value="">Pilih</option>' +
+                    '<option value="Ya">Ya</option>' +
+                    '<option value="Tidak">Tidak</option>' +
+                '</select>'
+            ];
+            
+            cells.forEach(function(cellHTML) {
+                const cell = newRow.insertCell();
+                cell.innerHTML = cellHTML;
+            });
+        }
+
+        // Fungsi untuk validasi form
+        document.getElementById('mainForm').addEventListener('submit', function(e) {
+            const namaInputs = document.querySelectorAll('input[name="nama"]');
+            let hasData = false;
+            let hasValidData = true;
+            
+            namaInputs.forEach(function(input, index) {
+                if (input.value.trim() !== '') {
+                    hasData = true;
+                    
+                    // Validasi semester dan organisasi untuk baris yang ada nama
+                    const semesterSelect = document.querySelectorAll('select[name="semester"]')[index];
+                    const organisasiSelect = document.querySelectorAll('select[name="organisasi"]')[index];
+                    
+                    if (!semesterSelect.value || !organisasiSelect.value) {
+                        hasValidData = false;
+                    }
+                }
+            });
+            
+            if (!hasData) {
+                e.preventDefault();
+                alert('Silakan masukkan minimal satu data mahasiswa!');
+                return;
+            }
+            
+            if (!hasValidData) {
+                e.preventDefault();
+                alert('Pastikan semua field Semester dan Organisasi sudah dipilih untuk data yang diisi!');
+                return;
+            }
+        });
+
+        // Fungsi untuk edit data terpilih
+        function editSelected() {
+            const checkboxes = document.querySelectorAll('input[name="selected_rows"]:checked');
+            
+            if (checkboxes.length === 0) {
+                alert('Pilih satu data yang akan diedit!');
+                return;
+            }
+            
+            if (checkboxes.length > 1) {
+                alert('Pilih hanya satu data untuk diedit!');
+                return;
+            }
+            
+            const selectedIndex = checkboxes[0].value;
+            const form = document.getElementById('actionForm');
+            
+            // Tambahkan hidden input untuk selected row
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'selected_row';
+            hiddenInput.value = selectedIndex;
+            form.appendChild(hiddenInput);
+            
+            // Tambahkan action
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'get_edit_data';
+            form.appendChild(actionInput);
+            
+            form.submit();
+        }
+
+        // Fungsi untuk hapus data terpilih
+        function deleteSelected() {
+            const checkboxes = document.querySelectorAll('input[name="selected_rows"]:checked');
+            
+            if (checkboxes.length === 0) {
+                alert('Pilih data yang akan dihapus!');
+                return;
+            }
+            
+            if (confirm('Yakin ingin menghapus ' + checkboxes.length + ' data terpilih?')) {
+                const form = document.getElementById('actionForm');
+                
+                // Tambahkan action
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'delete';
+                form.appendChild(actionInput);
+                
+                form.submit();
+            }
+        }
+
+        // Fungsi untuk menutup modal hasil
+        function closeModal() {
+            const modal = document.getElementById('popupModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Fungsi untuk menutup modal edit
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            if (modal) {
+                modal.style.display = 'none';
+                // Redirect ke halaman utama untuk refresh
+                window.location.href = '/';
+            }
+        }
+
+        // Tutup modal ketika klik di luar area modal
+        window.onclick = function(event) {
+            const popupModal = document.getElementById('popupModal');
+            const editModal = document.getElementById('editModal');
+            
+            if (event.target == popupModal) {
+                closeModal();
+            }
+            
+            if (event.target == editModal) {
+                closeEditModal();
+            }
+        }
+
+        // Tutup modal dengan tombol ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+                closeEditModal();
+            }
+        });
+    </script>
+
+</body>
+</html>
