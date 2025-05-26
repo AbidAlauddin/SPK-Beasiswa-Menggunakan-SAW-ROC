@@ -27,7 +27,7 @@ Aplikasi Sistem Pendukung Keputusan menggunakan metode **SAW (Simple Additive We
 
 ## 🚀 Cara Menjalankan Aplikasi
 
-### 1. Clone repositori
+### 1. Clone Repossitory
 
 ```bash
 git clone https://github.com/username/saw-roc-flask.git
@@ -42,7 +42,7 @@ source venv/bin/activate  # Untuk Linux/Mac
 venv\Scripts\activate     # Untuk Windows
 ```
 
-### 3. Install dependensi
+### 3. Install Dependency
 
 ```bash
 pip install -r requirements.txt
@@ -83,7 +83,3 @@ Buka `http://127.0.0.1:5000/` di browser untuk melihat aplikasi berjalan.
 
 - Pastikan kamu menggunakan Python 3.8 ke atas.
 - Database SQLite akan dibuat secara otomatis saat aplikasi pertama kali dijalankan.
-
-## 📄 Lisensi
-
-Proyek ini bebas digunakan untuk pembelajaran dan pengembangan lebih lanjut. Tambahkan lisensi (MIT, GPL, dll.) jika diperlukan.
