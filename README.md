@@ -8,6 +8,7 @@ Aplikasi Sistem Pendukung Keputusan menggunakan metode **SAW (Simple Additive We
 - Bobot otomatis menggunakan metode ROC
 - Perhitungan keputusan menggunakan metode SAW
 - Tampilan antarmuka berbasis HTML/CSS dengan Bootstrap
+- Backend menggunakan Python3
 - Tabel hasil keputusan yang tersorting
 - Penyimpanan hasil ke dalam database
 
